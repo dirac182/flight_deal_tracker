@@ -1,24 +1,19 @@
-import requests
-from dotenv import load_dotenv
-from requests.auth import HTTPBasicAuth
+#import requests
+import pandas
+#from dotenv import load_dotenv
+#from requests.auth import HTTPBasicAuth
 import os
 
-load_dotenv("C:/Env Variables/.env")
-SHEET_USER = os.getenv("sheet_user")
-SHEET_PASS = os.getenv("sheet_pass")
+data = pandas.read_csv("Flight Data - Sheet1.csv")
+print(data["City"])
+
 class DatManage():
 
     def __init__(self):
-        self.api_get_endpoint = "https://api.sheety.co/95f4ef8f4f6b6183d8dcffd957a0383b/flightData/sheet1"
-        self.api_post_endpoint = "https://api.sheety.co/95f4ef8f4f6b6183d8dcffd957a0383b/flightData/sheet1"
+        self.data = pandas.read_csv("Flight Data - Sheet1.csv")
 
-        self.basic = HTTPBasicAuth(f'{SHEET_USER}', f'{SHEET_PASS}')
-
-    def get_data(self):
-        self.request = requests.get(url=self.api_get_endpoint,auth=self.basic)
-        print(self.request.text)
-        self.data = self.request.json()["sheet1"]
-        self.cities = [cits["city"] for cits in self.data]
+    def get_cities(self):
+        self.cities = self.data["City"]
         return self.cities
 
     def update_iata(self,idx,code):
@@ -50,9 +45,5 @@ class DatManage():
         # print(idx,lowest)
         # print(data)
 
-
-
-
-
-data = DatManage()
-data.get_data()
+# data = DatManage()
+# data.get_data()
